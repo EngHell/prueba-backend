@@ -10,5 +10,5 @@ use Illuminate\Http\Request;
 
 class ApiRequest extends Request
 {
-    use AlwaysExpectsJsonAndWantsJson;
+    //use AlwaysExpectsJsonAndWantsJson;
 }
