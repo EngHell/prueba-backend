@@ -8,7 +8,7 @@
 
         <div>
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-                <jet-form-section @submitted="createApiToken">
+                <jet-form-section @submitted="createApiClient">
                     <template #title>
                         Create API Token
                     </template>
@@ -22,13 +22,12 @@
                         <div class="col-span-6 sm:col-span-4">
                             <jet-label for="name" value="Name" />
                             <jet-input id="name" type="text" class="mt-1 block w-full" v-model="createApiTokenForm.name" autofocus />
-                            <!--
                             <jet-input-error :message="createApiTokenForm.errors.name" class="mt-2" />
-                            -->
                         </div>
                         <div class="col-span-6 sm:col-span-4">
-                            <jet-label for="callback" value="Callback"/>
-                            <jet-input type="text" class="mt-1 block w-full" v-model="createApiTokenForm.callback" />
+                            <jet-label for="redirect" value="Redirect"/>
+                            <jet-input id="redirect" type="text" class="mt-1 block w-full" v-model="createApiTokenForm.redirect" />
+                            <jet-input-error :message="createApiTokenForm.errors.redirect" class="mt-2" />
                         </div>
                     </template>
 
@@ -81,6 +80,28 @@
                         </jet-action-section>
                     </div>
                 </div>
+                <!-- Token Value Modal -->
+                <jet-dialog-modal :show="displayingSecret" @close="displayingSecret = false">
+                    <template #title>
+                        API Token
+                    </template>
+
+                    <template #content>
+                        <div>
+                            Please copy your new API token. For your security, it won't be shown again.
+                        </div>
+
+                        <div class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500" v-if="$page.props.jetstream.flash.secret">
+                            {{ $page.props.jetstream.flash.secret }}
+                        </div>
+                    </template>
+
+                    <template #footer>
+                        <jet-secondary-button @click="displayingSecret = false">
+                            Close
+                        </jet-secondary-button>
+                    </template>
+                </jet-dialog-modal>
             </div>
         </div>
     </app-layout>
@@ -104,6 +125,7 @@
     import AppLayout from '@/Layouts/AppLayout'
     import axios from 'axios'
     import {onMounted, ref, reactive} from 'vue'
+    import { useForm } from '@inertiajs/inertia-vue3'
 
     export default {
         components: {
@@ -117,7 +139,9 @@
             JetInputError,
             JetCheckbox,
             JetActionMessage,
-            JetButton
+            JetButton,
+            JetDialogModal,
+            JetSecondaryButton
         },
         props:{
           clients:{
@@ -126,15 +150,27 @@
           }
         },
         setup(_){
-
-            const createApiTokenForm = reactive({
+            const displayingSecret = ref(false)
+            const createApiTokenForm = useForm({
                 name: '',
-                callback:'',
+                redirect:'',
             })
+
+            const createApiClient = function (){
+                createApiTokenForm.post(route('api.clients.store'), {
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        displayingSecret.value = true
+                        createApiTokenForm.reset()
+                    }
+                })
+            }
 
 
             return {
-                createApiTokenForm
+                createApiTokenForm,
+                displayingSecret,
+                createApiClient
             }
         },
     }

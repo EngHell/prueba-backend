@@ -30,4 +30,5 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
     })->name('dashboard');
 
     Route::get('/clients',[\App\Http\Controllers\ClientController::class, 'index'])->name('api.clients.index');
+    Route::post('/clients', [\App\Http\Controllers\ClientController::class, 'store'])->name('api.clients.store');
 });

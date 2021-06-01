@@ -49,6 +49,29 @@ class ClientController extends Controller
     }
 
     public function store(Request $request){
+        $this->validation->make($request->all(), [
+            'name' => 'required|max:191',
+            'redirect' => ['required', $this->redirectRule],
+            'confidential' => 'boolean',
+        ])->validate();
 
+        $client = $this->clients->create(
+            $request->user()->getAuthIdentifier(), $request->name, $request->redirect,
+            null, false, false, (bool) $request->input('confidential', true)
+        );
+
+
+        $secret = '';
+        if (Passport::$hashesClientSecrets) {
+            $secret = $client->plainSecret;
+        } else {
+            $client->makeVisible('secret');
+            $secret = $client->secret;
+        }
+
+
+        return back()->with('flash', [
+            'secret' => $secret,
+        ]);
     }
 }
