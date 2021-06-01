@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api\Vi;
 
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Vi\StoreCommentRequest;
 use App\Http\Resources\Api\Vi\CommentResource;
 use App\Models\Comment;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class CommentController extends ApiController
@@ -34,11 +36,26 @@ class CommentController extends ApiController
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(StoreCommentRequest $request)
     {
-        //
+        $data = [];
+
+        $input = $request->validated();
+        $comment = new Comment($input);
+        try {
+            $a = \DB::transaction(function() use($comment){
+                $comment->save();
+            });
+
+            $data["id"] = $comment->id;
+            $data["url"] = route("api.v1.comment.show",$comment);
+        } catch (\Exception $e){
+            $this->setInternalErrorResponse();
+        }
+
+        return $this->apiResponse($data);
     }
 
     /**
