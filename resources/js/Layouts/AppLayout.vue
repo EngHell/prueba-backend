@@ -104,6 +104,10 @@
                                             Manage Account
                                         </div>
 
+                                        <jet-dropdown-link :href="route('api.clients.index')">
+                                            API
+                                        </jet-dropdown-link>
+
                                         <jet-dropdown-link :href="route('profile.show')">
                                             Profile
                                         </jet-dropdown-link>
