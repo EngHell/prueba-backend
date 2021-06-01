@@ -22,4 +22,8 @@ Route::middleware(['auth:api'])->prefix('v1')->group(function(){
     Route::apiResource('movie', \App\Http\Controllers\Api\Vi\MovieController::class,[
         'as'=>'api.v1'
     ])->only(['show']);
+
+    Route::apiResource('comment',\App\Http\Controllers\Api\Vi\CommentController::class, [
+        'as'=>'api.v1'
+    ]);
 });
