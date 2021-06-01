@@ -70,7 +70,7 @@
                                             </div>
 
 
-                                            <button class="cursor-pointer ml-6 text-sm text-red-500" @click="confirmApiTokenDeletion(client)">
+                                            <button class="cursor-pointer ml-6 text-sm text-red-500" @click="confirmApiClientDeletion(client)">
                                                 Delete
                                             </button>
                                         </div>
@@ -102,6 +102,27 @@
                         </jet-secondary-button>
                     </template>
                 </jet-dialog-modal>
+
+                <!-- Delete Token Confirmation Modal -->
+                <jet-confirmation-modal :show="apiClientBeingDeleted.client" @close="apiClientBeingDeleted.client = null">
+                    <template #title>
+                        Borrar cliente API
+                    </template>
+
+                    <template #content>
+                        Esta seguro que deseas borrar este cliente?
+                    </template>
+
+                    <template #footer>
+                        <jet-secondary-button @click="apiClientBeingDeleted.client = null">
+                            Cancelar
+                        </jet-secondary-button>
+
+                        <jet-danger-button class="ml-2" @click="deleteApiClient" :class="{ 'opacity-25': deleteApiTokenForm.processing }" :disabled="deleteApiTokenForm.processing">
+                            Borrar
+                        </jet-danger-button>
+                    </template>
+                </jet-confirmation-modal>
             </div>
         </div>
     </app-layout>
@@ -141,7 +162,9 @@
             JetActionMessage,
             JetButton,
             JetDialogModal,
-            JetSecondaryButton
+            JetSecondaryButton,
+            JetConfirmationModal,
+            JetDangerButton
         },
         props:{
           clients:{
@@ -156,6 +179,10 @@
                 redirect:'',
             })
 
+            const deleteApiTokenForm = useForm({})
+
+            const apiClientBeingDeleted = reactive({client:null})
+
             const createApiClient = function (){
                 createApiTokenForm.post(route('api.clients.store'), {
                     preserveScroll: true,
@@ -166,11 +193,27 @@
                 })
             }
 
+            const confirmApiClientDeletion = function (client){
+                apiClientBeingDeleted.client = client
+            }
+
+            const deleteApiClient = function() {
+                deleteApiTokenForm.delete(route('api.clients.destroy', apiClientBeingDeleted.client.id), {
+                    preserveScroll: true,
+                    preserveState: true,
+                    onSuccess: () => (apiClientBeingDeleted.client = null),
+                })
+            }
+
 
             return {
+                apiClientBeingDeleted,
                 createApiTokenForm,
                 displayingSecret,
-                createApiClient
+                deleteApiTokenForm,
+                createApiClient,
+                confirmApiClientDeletion,
+                deleteApiClient
             }
         },
     }

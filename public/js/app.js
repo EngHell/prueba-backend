@@ -17541,7 +17541,9 @@ __webpack_require__.r(__webpack_exports__);
     JetActionMessage: _Jetstream_ActionMessage__WEBPACK_IMPORTED_MODULE_0__.default,
     JetButton: _Jetstream_Button__WEBPACK_IMPORTED_MODULE_2__.default,
     JetDialogModal: _Jetstream_DialogModal__WEBPACK_IMPORTED_MODULE_5__.default,
-    JetSecondaryButton: _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_11__.default
+    JetSecondaryButton: _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_11__.default,
+    JetConfirmationModal: _Jetstream_ConfirmationModal__WEBPACK_IMPORTED_MODULE_3__.default,
+    JetDangerButton: _Jetstream_DangerButton__WEBPACK_IMPORTED_MODULE_4__.default
   },
   props: {
     clients: {
@@ -17555,6 +17557,10 @@ __webpack_require__.r(__webpack_exports__);
       name: '',
       redirect: ''
     });
+    var deleteApiTokenForm = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_17__.useForm)({});
+    var apiClientBeingDeleted = (0,vue__WEBPACK_IMPORTED_MODULE_16__.reactive)({
+      client: null
+    });
 
     var createApiClient = function createApiClient() {
       createApiTokenForm.post(route('api.clients.store'), {
@@ -17566,10 +17572,28 @@ __webpack_require__.r(__webpack_exports__);
       });
     };
 
+    var confirmApiClientDeletion = function confirmApiClientDeletion(client) {
+      apiClientBeingDeleted.client = client;
+    };
+
+    var deleteApiClient = function deleteApiClient() {
+      deleteApiTokenForm["delete"](route('api.clients.destroy', apiClientBeingDeleted.client.id), {
+        preserveScroll: true,
+        preserveState: true,
+        onSuccess: function onSuccess() {
+          return apiClientBeingDeleted.client = null;
+        }
+      });
+    };
+
     return {
+      apiClientBeingDeleted: apiClientBeingDeleted,
       createApiTokenForm: createApiTokenForm,
       displayingSecret: displayingSecret,
-      createApiClient: createApiClient
+      deleteApiTokenForm: deleteApiTokenForm,
+      createApiClient: createApiClient,
+      confirmApiClientDeletion: confirmApiClientDeletion,
+      deleteApiClient: deleteApiClient
     };
   }
 });
@@ -20976,6 +21000,14 @@ var _hoisted_18 = {
 
 var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Close ");
 
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Borrar cliente API ");
+
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Esta seguro que deseas borrar este cliente? ");
+
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Cancelar ");
+
+var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Borrar ");
+
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_jet_label = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-label");
 
@@ -20996,6 +21028,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_jet_secondary_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-secondary-button");
 
   var _component_jet_dialog_modal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-dialog-modal");
+
+  var _component_jet_danger_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-danger-button");
+
+  var _component_jet_confirmation_modal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-confirmation-modal");
 
   var _component_app_layout = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("app-layout");
 
@@ -21106,7 +21142,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
               "class": "cursor-pointer ml-6 text-sm text-red-500",
               onClick: function onClick($event) {
-                return _ctx.confirmApiTokenDeletion(client);
+                return $setup.confirmApiClientDeletion(client);
               }
             }, " Delete ", 8
             /* PROPS */
@@ -21145,6 +21181,52 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             /* STABLE */
 
           })];
+        }),
+        _: 1
+        /* STABLE */
+
+      }, 8
+      /* PROPS */
+      , ["show"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Delete Token Confirmation Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_confirmation_modal, {
+        show: $setup.apiClientBeingDeleted.client,
+        onClose: _cache[6] || (_cache[6] = function ($event) {
+          return $setup.apiClientBeingDeleted.client = null;
+        })
+      }, {
+        title: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [_hoisted_20];
+        }),
+        content: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [_hoisted_21];
+        }),
+        footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_secondary_button, {
+            onClick: _cache[5] || (_cache[5] = function ($event) {
+              return $setup.apiClientBeingDeleted.client = null;
+            })
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [_hoisted_22];
+            }),
+            _: 1
+            /* STABLE */
+
+          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_danger_button, {
+            "class": ["ml-2", {
+              'opacity-25': $setup.deleteApiTokenForm.processing
+            }],
+            onClick: $setup.deleteApiClient,
+            disabled: $setup.deleteApiTokenForm.processing
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [_hoisted_23];
+            }),
+            _: 1
+            /* STABLE */
+
+          }, 8
+          /* PROPS */
+          , ["onClick", "class", "disabled"])];
         }),
         _: 1
         /* STABLE */

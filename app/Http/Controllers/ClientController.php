@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Inertia\Inertia;
 use Laravel\Passport\ClientRepository;
 use Laravel\Passport\Http\Rules\RedirectRule;
@@ -73,5 +74,19 @@ class ClientController extends Controller
         return back()->with('flash', [
             'secret' => $secret,
         ]);
+    }
+
+
+    public function destroy(Request $request, $clientId)
+    {
+        $client = $this->clients->findForUser($clientId, $request->user()->getAuthIdentifier());
+
+        if (! $client) {
+            return response()->json(['state'=>'notfound'],404);
+        }
+
+        $this->clients->delete($client);
+
+        return back(303);
     }
 }

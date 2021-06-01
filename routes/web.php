@@ -31,4 +31,5 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
 
     Route::get('/clients',[\App\Http\Controllers\ClientController::class, 'index'])->name('api.clients.index');
     Route::post('/clients', [\App\Http\Controllers\ClientController::class, 'store'])->name('api.clients.store');
+    Route::delete('/clients/{clientId}', [\App\Http\Controllers\ClientController::class, 'destroy'])->name('api.clients.destroy');
 });
