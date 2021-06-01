@@ -18,4 +18,8 @@ Route::middleware(['auth:api'])->prefix('v1')->group(function(){
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+
+    Route::apiResource('movie', \App\Http\Controllers\Api\Vi\MovieController::class,[
+        'as'=>'api.v1'
+    ])->only(['show']);
 });
