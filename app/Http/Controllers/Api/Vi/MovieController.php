@@ -43,7 +43,7 @@ class MovieController extends ApiController
         if($movie->status()==200){
             $movieData = $movie->json();
             if($movieData['Response']=='True'){
-                $data = $movieData;
+                $data['data'] = $movieData;
             } else {
                 switch ($movieData['Error']){
                     case 'Error getting data.':
