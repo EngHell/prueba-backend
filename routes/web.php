@@ -29,7 +29,5 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::get('/clients',function (){
-        return Inertia::render('Profile/PassportIndex');
-    })->name('api.clients.index');
+    Route::get('/clients',[\App\Http\Controllers\ClientController::class, 'index'])->name('api.clients.index');
 });
