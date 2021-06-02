@@ -128,8 +128,24 @@ class CommentController extends ApiController
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment)
+    public function destroy(int $id)
     {
-        //
+        $data = [];
+        //to avoid a current issue with wantsjson i will avoid dependency injection.
+        $comment = Comment::find($id);
+
+        if($comment){
+            try {
+                $a = \DB::transaction(function() use($comment){
+                    $comment->delete();
+                });
+            } catch (\Exception $e){
+                $this->setInternalErrorResponse();
+            }
+        } else {
+            $this->setNotFoundResponse();
+        }
+
+        return $this->apiResponse($data);
     }
 }
