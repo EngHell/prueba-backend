@@ -1,4 +1,4 @@
-#Requirimientos
+# Requirimientos
 1. PHP 7.3
 2. Composer 2
 3. nodeJS 15.14.0
