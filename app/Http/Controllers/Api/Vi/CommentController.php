@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Api\Vi;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Vi\StoreCommentRequest;
+use App\Http\Requests\Api\Vi\UpdateCommentRequest;
 use App\Http\Resources\Api\Vi\CommentResource;
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class CommentController extends ApiController
 {
@@ -18,16 +20,6 @@ class CommentController extends ApiController
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
     {
         //
     }
@@ -75,17 +67,6 @@ class CommentController extends ApiController
         }
 
         return $this->apiResponse($data);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Comment $comment)
-    {
-        //
     }
 
     /**
