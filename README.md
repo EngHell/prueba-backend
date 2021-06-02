@@ -1,10 +1,17 @@
+#Requirimientos
+1. PHP 7.3
+2. Composer 2
+3. nodeJS 15.14.0
+
 ## Instrucciones de instalacion.
 
 1. Renombar `.env.example` a `.env`
 2. Añadir la informacion de conexion de mysql en `.env`
-3. Ejecutar `php artisan key:generate`
-4. Ejecutar migraciones `php artisan migrate`
-5. Correr servidor `php artisan serve`
+3. Instalar dependencias con composer `composer install` (Asumiendo composer esta isntalado globalmente)
+4. Instalar dependencias de javascript `npm install && npm run dev`
+5. Ejecutar `php artisan key:generate`
+6. Ejecutar migraciones `php artisan migrate`
+7. Correr servidor `php artisan serve`
 
 ## Generar `client_secret` y `client_id`
 1. Registrar un usuario en la interfaz del sitio.
