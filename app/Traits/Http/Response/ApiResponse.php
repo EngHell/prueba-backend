@@ -5,6 +5,8 @@ namespace App\Traits\Http\Response;
 
 
 use App\Http\Controllers\Api\ErrorCodes;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 trait ApiResponse
 {
@@ -57,10 +59,14 @@ trait ApiResponse
 
     /**
      * @param array $data
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse|AnonymousResourceCollection
      */
-    public function apiResponse($data=[]): \Illuminate\Http\JsonResponse
+    public function apiResponse($data=[])
     {
+        if($data instanceof AnonymousResourceCollection | $data instanceof ResourceCollection){
+            return $data;
+        }
+
         $data["code"]= $this->code;
         $data["message"]= $this->message;
         return response()->json($data,$this->httpCode);

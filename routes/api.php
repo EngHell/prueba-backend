@@ -19,9 +19,12 @@ Route::middleware(['auth:api','json.wants.always'])->prefix('v1')->group(functio
         return $request->user();
     });
 
-    Route::apiResource('movie', \App\Http\Controllers\Api\Vi\MovieController::class,[
-        'as'=>'api.v1'
-    ])->only(['show']);
+    Route::Get('movie/{id}', [\App\Http\Controllers\Api\Vi\MovieController::class,'show'])
+        ->name('api.v1.movie.show');
+    Route::Get('movie/{id}/comment',[\App\Http\Controllers\Api\Vi\MovieController::class, 'indexComments'])
+        ->name('api.v1.movie.comment.index');
+
+
 
     Route::apiResource('comment',\App\Http\Controllers\Api\Vi\CommentController::class, [
         'as'=>'api.v1'

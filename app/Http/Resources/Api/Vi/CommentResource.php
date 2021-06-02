@@ -22,6 +22,7 @@ class CommentResource extends JsonResource
             'comment' => $this->comment,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'url'=>route("api.v1.comment.show",$this->id)
         ];
     }
 }

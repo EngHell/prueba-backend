@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\Vi;
 
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Resources\Api\Vi\CommentResource;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -35,7 +37,7 @@ class MovieController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show(Request $request, string $id)
     {
         $data =[];
         $movie = Http::get("http://www.omdbapi.com/?i=${id}&apikey=7b96b558");
@@ -65,26 +67,18 @@ class MovieController extends ApiController
         return $this->apiResponse($data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+    public function indexComments(Request $request, string $id){
+        $data = [];
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        try {
+            $comments = Comment::where('title','=',$id)->paginate(5);
+            $data = CommentResource::collection($comments)->additional(
+                ['code'=>$this->code,'message'=>'message']
+            );
+        } catch (\Exception $e){
+            $this->setInvalidInputResponse();
+        }
+
+        return $this->apiResponse($data);
     }
 }
