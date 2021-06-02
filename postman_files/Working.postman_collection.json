@@ -1,0 +1,282 @@
+{
+	"info": {
+		"_postman_id": "52fc63fc-48ea-4a0d-9576-7b17cd68e108",
+		"name": "Working",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Details about the logged user user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/user",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Details about a movie.",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/movie/:id/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"movie",
+						":id",
+						""
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "tt3896198"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "comments for movie.",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/movie/:id/comment?page=1",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"movie",
+						":id",
+						"comment"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "tt3896198"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Details about a comment.",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/comment/:id/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"comment",
+						":id",
+						""
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "7"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create new comment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\":\"tt3896198\",\n    \"author\":\"angelss123ssss123.\",\n    \"email\":\"testo@gmail.com\",\n    \"comment\":\"was a good movie wuteverrrrws.\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/comment/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"comment",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "edit comment",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"author\":\"test update.\",\n    \"email\":\"updated@gmail.com\",\n    \"comment\":\"updated: yes was very good.\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/comment/:id",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"comment",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "7"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete comment.",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/comment/:id",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"comment",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "accessTokenUrl",
+				"value": "http://127.0.0.1:8000/oauth/token",
+				"type": "string"
+			},
+			{
+				"key": "state",
+				"value": "12345",
+				"type": "string"
+			},
+			{
+				"key": "clientId",
+				"value": "3",
+				"type": "string"
+			},
+			{
+				"key": "clientSecret",
+				"value": "P6r9lJVneAqgv0CHiwPSJ40N9SDWDyoDi2WZl7UN",
+				"type": "string"
+			},
+			{
+				"key": "authUrl",
+				"value": "http://127.0.0.1:8000/oauth/authorize",
+				"type": "string"
+			},
+			{
+				"key": "useBrowser",
+				"value": true,
+				"type": "boolean"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8000/api/v1"
+		},
+		{
+			"key": "host",
+			"value": ""
+		}
+	]
+}
