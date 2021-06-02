@@ -17,6 +17,7 @@
 
 - Coleccion de postman(ya configurada para probar, solo generar un nuevo secret y id): [Link](postman_files/Working.postman_collection.json)
 - Archivo exportado de swagger:[Link](postman_files/swagger-myself418-pruebabackend-1.0.0-resolved.json)
-- Documento explicativo: [Link](abstracto)
+- Documento explicativo: [Link](#abstracto)
+
 
 ## Abstracto
