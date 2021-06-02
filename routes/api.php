@@ -25,5 +25,5 @@ Route::middleware(['auth:api','json.wants.always'])->prefix('v1')->group(functio
 
     Route::apiResource('comment',\App\Http\Controllers\Api\Vi\CommentController::class, [
         'as'=>'api.v1'
-    ]);
+    ])->except('index');
 });
