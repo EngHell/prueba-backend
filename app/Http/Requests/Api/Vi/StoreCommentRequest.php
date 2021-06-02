@@ -5,7 +5,7 @@ namespace App\Http\Requests\Api\Vi;
 use App\Http\Requests\Api\ApiFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCommentRequest extends FormRequest
+class StoreCommentRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +27,7 @@ class StoreCommentRequest extends FormRequest
         return [
             'title'=>[
                 'required',
-                'max:255'
+                'max:25'
             ],
             'email'=>[
                 'required',
