@@ -46,6 +46,12 @@ class MovieController extends ApiController
             $movieData = $movie->json();
             if($movieData['Response']=='True'){
                 $data['data'] = $movieData;
+                $data['comments'] = CommentResource::collection(
+                    Comment::where('title','=',$id)
+                        ->orderBy('updated_at','DESC')
+                        ->take(5)
+                        ->get()
+                );
             } else {
                 switch ($movieData['Error']){
                     case 'Error getting data.':
