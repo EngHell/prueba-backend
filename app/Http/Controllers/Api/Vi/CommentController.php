@@ -93,11 +93,33 @@ class CommentController extends ApiController
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Comment  $comment
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, Comment $comment)
+    public function update(UpdateCommentRequest $request, int $id)
     {
-        //
+        $data = [];
+        //to avoid a current issue with wantsjson i will avoid dependency injection.
+        $comment = Comment::find($id);
+
+        if($comment){
+            $validated = $request->validated();
+            $comment->author = $validated['author'];
+            $comment->email = $validated['email'];
+            $comment->comment = $validated['comment'];
+            try {
+                $a = \DB::transaction(function() use($comment){
+                    $comment->save();
+                });
+
+                $data['data'] = new CommentResource($comment);
+            } catch (\Exception $e){
+                $this->setInternalErrorResponse();
+            }
+        } else {
+            $this->setNotFoundResponse();
+        }
+
+        return $this->apiResponse($data);
     }
 
     /**
